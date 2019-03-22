@@ -121,32 +121,43 @@ void ofApp::mousePressed(int x, int y, int button){
 	confidenceSlider.mousePressed(x, y);
 
 	if (nextButton.mousePressed(x, y)) {
-		contents[currentContent].saveValuesToFile();
+		//contents[currentContent].saveValuesToFile();
+		contents[currentContent].social = socialGraph.vecValue;
+		contents[currentContent].econ = econGraph.vecValue;
+		contents[currentContent].religeous = religeousSlider.fltValue;
+		contents[currentContent].confidence = confidenceSlider.fltValue;
+
 		if (currentContent >= contents.size()-1) {
 			currentContent = 0;
 		}
 		else {
 			currentContent++;
 		}
-		/*
-		contents[currentContent].parseMeta();
+		
+		//contents[currentContent].parseMeta();
 		socialGraph.vecValue = contents[currentContent].social;
 		econGraph.vecValue = contents[currentContent].econ;
 		religeousSlider.fltValue = contents[currentContent].religeous;
 		confidenceSlider.fltValue = contents[currentContent].confidence;
-		*/
+		
 
 	}
 	
 	if (backButton.mousePressed(x, y)) {
-		contents[currentContent].saveValuesToFile();
+		//contents[currentContent].saveValuesToFile();
+		contents[currentContent].social = socialGraph.vecValue;
+		contents[currentContent].econ = econGraph.vecValue;
+		contents[currentContent].religeous = religeousSlider.fltValue;
+		contents[currentContent].confidence = confidenceSlider.fltValue;
+
 		if (currentContent <= 0) {
 			currentContent = contents.size()-1;
 		}
 		else {
 			currentContent--;
 		}
-		contents[currentContent].parseMeta();
+
+		//contents[currentContent].parseMeta();
 		socialGraph.vecValue = contents[currentContent].social;
 		econGraph.vecValue = contents[currentContent].econ;
 		religeousSlider.fltValue = contents[currentContent].religeous;

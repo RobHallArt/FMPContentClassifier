@@ -11,6 +11,8 @@ class content {
 		ofVideoPlayer video;
 		vector<ofImage> slideshow;
 
+		bool importSuccess;
+
 		string path;
 
 		ofxXmlSettings dataAsXml;

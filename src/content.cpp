@@ -8,11 +8,28 @@ content::content(string _path) {
 void content::importContent(string _path) {
 	if (getExtFromPath(_path) == "jpg") {
 		image.load(_path);
-		dataAsXml.loadFile(ofSplitString(_path, ".")[0] + ".xml");
+		
+		if (dataAsXml.loadFile(ofSplitString(_path, ".")[0] + ".xml") == 0) {
+			//dataAsXml.loadFile(ofSplitString(_path, ".")[0] + ".xml");
+			importSuccess = TRUE;
+		}
+		else {
+			importSuccess = FALSE;
+		}
+		
+
 	}
 	if (getExtFromPath(_path) == "png") {
 		image.load(_path);
-		dataAsXml.loadFile(ofSplitString(_path, ".")[0] + ".xml");
+		
+		if (dataAsXml.loadFile(ofSplitString(_path, ".")[0] + ".xml") == 0) {
+			//dataAsXml.loadFile(ofSplitString(_path, ".")[0] + ".xml");
+			importSuccess = TRUE;
+		}
+		else {
+			importSuccess = FALSE;
+		}
+		
 	}
 }
 
@@ -21,12 +38,22 @@ void content::getContentType() {
 }
 
 void content::parseMeta() {
-	
-	social.x = dataAsXml.getValue("ECON:X", 0);
-	social.y = dataAsXml.getValue("ECON:Y", 0);
+	if (importSuccess) {
 
-	religeous = dataAsXml.getValue("RELIGEOUS", 0);
-	confidence = dataAsXml.getValue("CONFIDENCE", 0);
+		//std::cout << "import worked apparently" << std::endl;
+
+		
+		social.x = dataAsXml.getValue("social:x", 0);
+		social.y = dataAsXml.getValue("social:y", 0);
+
+		econ.x = dataAsXml.getValue("econ:x", 0);
+		econ.y = dataAsXml.getValue("econ:y", 0);
+
+		religeous = dataAsXml.getValue("RELIGEOUS", 0);
+		confidence = dataAsXml.getValue("CONFIDENCE", 0);
+		
+	}
+	
 }
 
 void content::draw(int _x, int _y) {
@@ -62,11 +89,14 @@ string content::getExtFromPath(string _path) {
 }
 
 void content::saveValuesToFile() {
-	//dataAsXml.setValue("ECON:X", social.x);
-	//dataAsXml.setValue("ECON:Y", social.y);
+	dataAsXml.setValue("econ:x", econ.x);
+	dataAsXml.setValue("econ:y", econ.y);
 
-	dataAsXml.setValue("RELIGEOUS", religeous);
-	dataAsXml.setValue("CONFIDENCE", confidence);
+	dataAsXml.setValue("social:x", social.x);
+	dataAsXml.setValue("social:y", social.y);
+
+	dataAsXml.setValue("religeous", religeous);
+	dataAsXml.setValue("confidence", confidence);
 
 	//dataAsXml.saveFile(ofSplitString(path, ".")[0] + ".xml");
 }
