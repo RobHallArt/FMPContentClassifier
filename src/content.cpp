@@ -62,8 +62,8 @@ string content::getExtFromPath(string _path) {
 }
 
 void content::saveValuesToFile() {
-	dataAsXml.setValue("ECON:X", social.x);
-	dataAsXml.setValue("ECON:Y", social.y);
+	//dataAsXml.setValue("ECON:X", social.x);
+	//dataAsXml.setValue("ECON:Y", social.y);
 
 	dataAsXml.setValue("RELIGEOUS", religeous);
 	dataAsXml.setValue("CONFIDENCE", confidence);
