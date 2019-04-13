@@ -28,6 +28,8 @@ class ofApp : public ofBaseApp{
 
 		vector<content> contents;
 
+		string getExtFromPath(string _path);
+
 		graphInput socialGraph{ glm::vec2(ofGetWidth()*0.05, ofGetWidth()*0.05), glm::vec2(ofGetWidth()*0.4,ofGetWidth()*0.4), glm::vec2(0,0), "Social Graph" };
 		graphInput econGraph{ glm::vec2(ofGetWidth()*0.55, ofGetWidth()*0.05), glm::vec2(ofGetWidth()*0.4,ofGetWidth()*0.4), glm::vec2(0,0), "Econ Graph" };
 		graphInput religeousSlider{ glm::vec2(ofGetWidth()*0.05, ofGetWidth()*0.55), glm::vec2(ofGetWidth()*0.4,ofGetWidth()*0.1), 0, "Religeous Slider" };

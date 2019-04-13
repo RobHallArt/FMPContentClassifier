@@ -67,3 +67,11 @@ void graphInput::mousePressed(int _x, int _y) {
 		fltValue = ofMap(_x - position.x, 0, size.x, -1, 1);
 	}
 }
+
+signed int graphInput::getXmlCompatibleValue() {
+	// needs to work in 1d and 2d, return 2 values??
+	return 0;
+}
+void graphInput::setXmlCompatibleValue() {
+
+}

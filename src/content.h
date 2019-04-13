@@ -1,6 +1,5 @@
 #pragma once
 #include "ofMain.h"
-#include "ofxXmlSettings.h"
 
 class content {
 	public :
@@ -14,8 +13,9 @@ class content {
 		bool importSuccess;
 
 		string path;
+		string datPath;
 
-		ofxXmlSettings dataAsXml;
+		ofFile file;
 
 		glm::vec2 social;
 		glm::vec2 econ;

@@ -6,31 +6,26 @@ content::content(string _path) {
 }
 
 void content::importContent(string _path) {
-	if (getExtFromPath(_path) == "jpg") {
-		image.load(_path);
-		
-		if (dataAsXml.loadFile(ofSplitString(_path, ".")[0] + ".xml") == 0) {
-			//dataAsXml.loadFile(ofSplitString(_path, ".")[0] + ".xml");
-			importSuccess = TRUE;
-		}
-		else {
-			importSuccess = FALSE;
-		}
-		
 
-	}
-	if (getExtFromPath(_path) == "png") {
 		image.load(_path);
+		std::cout << _path << std::endl;
+
+		datPath = ofSplitString(_path, ".")[0] + ".txt";
+
+		if (file.open(ofToDataPath(ofSplitString(_path, ".")[0] + ".txt"), ofFile::ReadWrite, false)) {
+			
+				std::cout << ofSplitString(_path, ".")[0] + ".txt" << std::endl;
+				importSuccess = true;
 		
-		if (dataAsXml.loadFile(ofSplitString(_path, ".")[0] + ".xml") == 0) {
-			//dataAsXml.loadFile(ofSplitString(_path, ".")[0] + ".xml");
-			importSuccess = TRUE;
 		}
 		else {
-			importSuccess = FALSE;
+			std::cout << "Didn't Work" << std::endl;
+			//file.create();
+			importSuccess = false;
 		}
-		
-	}
+
+	parseMeta();
+
 }
 
 void content::getContentType() {
@@ -38,39 +33,27 @@ void content::getContentType() {
 }
 
 void content::parseMeta() {
+
 	if (importSuccess) {
 
-		//std::cout << "import worked apparently" << std::endl;
+		ofBuffer buf = file.readToBuffer();
+		std::cout << buf.getText() << std::endl;
+		string str = buf.getText();
 
-		
-		social.x = dataAsXml.getValue("social:x", 0);
-		social.y = dataAsXml.getValue("social:y", 0);
+		social.x = ofToFloat(ofSplitString(str, ",")[0]);
+		social.y = ofToFloat(ofSplitString(str, ",")[1]);
 
-		econ.x = dataAsXml.getValue("econ:x", 0);
-		econ.y = dataAsXml.getValue("econ:y", 0);
+		econ.x = ofToFloat(ofSplitString(str, ",")[2]);
+		econ.y = ofToFloat(ofSplitString(str, ",")[3]);
 
-		religeous = dataAsXml.getValue("RELIGEOUS", 0);
-		confidence = dataAsXml.getValue("CONFIDENCE", 0);
+		religeous = ofToFloat(ofSplitString(str, ",")[4]);
+		confidence = ofToFloat(ofSplitString(str, ",")[5]);
 		
 	}
 	
 }
 
 void content::draw(int _x, int _y) {
-
-	/*
-	float imageHeight = ofGetHeight()*0.6;
-	float imageRatio = (imageHeight / image.getHeight());
-	float imageWidth = image.getWidth()*imageRatio;
-
-	if (imageWidth > ofGetWidth()*0.8) {
-		imageWidth = ofGetWidth()*0.8;
-		imageRatio = (imageWidth / image.getWidth());
-		imageHeight = image.getHeight()*imageRatio;
-	}
-
-	image.draw((ofGetWidth() -imageWidth)*0.5, ofGetHeight()*0.05, imageWidth, imageHeight);
-	*/
 
 	image.draw(_x, _y, ofGetWidth(), ofGetHeight());
 
@@ -89,16 +72,29 @@ string content::getExtFromPath(string _path) {
 }
 
 void content::saveValuesToFile() {
-	//if (dataAsXml.getValue("econ:x")[0] == 0) {
-	//	dataAsXml.setValue("econ:x", econ.x);
-	//}
-	dataAsXml.setValue("econ:y", econ.y);
 
-	dataAsXml.setValue("social:x", social.x);
-	dataAsXml.setValue("social:y", social.y);
+	string save;
 
-	dataAsXml.setValue("religeous", religeous);
-	dataAsXml.setValue("confidence", confidence);
+	save = ofToString(social.x);
+	save += "," + ofToString(social.y);
 
-	//dataAsXml.saveFile(ofSplitString(path, ".")[0] + ".xml");
+	save += "," + ofToString(econ.x);
+	save += "," + ofToString(econ.y);
+
+	save += "," + ofToString(religeous);
+	save += "," + ofToString(confidence);
+
+	ofBuffer out;
+	out.set(save.c_str(),save.size());
+	std::cout << save << std::endl;
+	
+	//file.writeFromBuffer(out);
+
+	if (ofBufferToFile(datPath, out, false)) {
+		std::cout << save << std::endl;
+	}
+	else {
+		std::cout << "WriteFailed" << std::endl;
+	}
+
 }

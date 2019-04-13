@@ -62,9 +62,17 @@ void ofApp::setup(){
 
 	//go through and print out all the paths
 	for (int i = 0; i < contentDir.size(); i++) {
-		std::cout << contentDir.getPath(i) << std::endl;
-		contents.push_back(content(contentDir.getPath(i)));
+		//std::cout << contentDir.getPath(i) << std::endl;
+		if (getExtFromPath(contentDir.getPath(i)) == "jpg" || getExtFromPath(contentDir.getPath(i)) == "png") {
+			contents.push_back(content(contentDir.getPath(i)));
+		}
 	}
+
+	socialGraph.vecValue = contents[currentContent].social;
+	econGraph.vecValue = contents[currentContent].econ;
+	religeousSlider.fltValue = contents[currentContent].religeous;
+	confidenceSlider.fltValue = contents[currentContent].confidence;
+
 }
 
 //--------------------------------------------------------------
@@ -126,6 +134,7 @@ void ofApp::mousePressed(int x, int y, int button){
 		contents[currentContent].econ = econGraph.vecValue;
 		contents[currentContent].religeous = religeousSlider.fltValue;
 		contents[currentContent].confidence = confidenceSlider.fltValue;
+		contents[currentContent].saveValuesToFile();
 
 		if (currentContent >= contents.size()-1) {
 			currentContent = 0;
@@ -149,6 +158,7 @@ void ofApp::mousePressed(int x, int y, int button){
 		contents[currentContent].econ = econGraph.vecValue;
 		contents[currentContent].religeous = religeousSlider.fltValue;
 		contents[currentContent].confidence = confidenceSlider.fltValue;
+		contents[currentContent].saveValuesToFile();
 
 		if (currentContent <= 0) {
 			currentContent = contents.size()-1;
@@ -194,4 +204,15 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
+}
+
+string ofApp::getExtFromPath(string _path) {
+	if (ofSplitString(_path, ".").size() > 0) {
+		string ret = ofSplitString(_path, ".")[1];
+		return ret;
+		std::cout << ret << std::endl;
+	}
+	else {
+		return ".NaN";
+	}
 }
