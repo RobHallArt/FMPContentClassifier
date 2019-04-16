@@ -68,8 +68,7 @@ void ofApp::setup(){
 		}
 	}
 
-	socialGraph.vecValue = contents[currentContent].social;
-	econGraph.vecValue = contents[currentContent].econ;
+	graph.vecValue = contents[currentContent].graph;
 	religeousSlider.fltValue = contents[currentContent].religeous;
 	confidenceSlider.fltValue = contents[currentContent].confidence;
 
@@ -85,8 +84,8 @@ void ofApp::draw(){
 		
 		contents[currentContent].draw(0,0);
 
-		socialGraph.draw(glm::vec2(ofGetWidth()*0.05, ofGetWidth()*0.05), glm::vec2(ofGetWidth()*0.4, ofGetWidth()*0.4));
-		econGraph.draw(glm::vec2(ofGetWidth()*0.55, ofGetWidth()*0.05), glm::vec2(ofGetWidth()*0.4, ofGetWidth()*0.4));
+		graph.draw(glm::vec2(ofGetWidth()*0.05, ofGetWidth()*0.05), glm::vec2(ofGetWidth()*0.4, ofGetWidth()*0.4));
+		
 
 		religeousSlider.draw( glm::vec2(ofGetWidth()*0.05, ofGetWidth()*0.50), glm::vec2(ofGetWidth()*0.4,ofGetWidth()*0.1) );
 		confidenceSlider.draw( glm::vec2(ofGetWidth()*0.55, ofGetWidth()*0.50), glm::vec2(ofGetWidth()*0.4,ofGetWidth()*0.1) );
@@ -113,8 +112,7 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-	socialGraph.mousePressed(x, y);
-	econGraph.mousePressed(x, y);
+	graph.mousePressed(x, y);
 
 	religeousSlider.mousePressed(x, y);
 	confidenceSlider.mousePressed(x, y);
@@ -122,16 +120,14 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-	socialGraph.mousePressed(x, y);
-	econGraph.mousePressed(x, y);
+	graph.mousePressed(x, y);
 
 	religeousSlider.mousePressed(x, y);
 	confidenceSlider.mousePressed(x, y);
 
 	if (nextButton.mousePressed(x, y)) {
 		//contents[currentContent].saveValuesToFile();
-		contents[currentContent].social = socialGraph.vecValue;
-		contents[currentContent].econ = econGraph.vecValue;
+		contents[currentContent].graph = graph.vecValue;
 		contents[currentContent].religeous = religeousSlider.fltValue;
 		contents[currentContent].confidence = confidenceSlider.fltValue;
 		contents[currentContent].saveValuesToFile();
@@ -144,8 +140,7 @@ void ofApp::mousePressed(int x, int y, int button){
 		}
 		
 		//contents[currentContent].parseMeta();
-		socialGraph.vecValue = contents[currentContent].social;
-		econGraph.vecValue = contents[currentContent].econ;
+		graph.vecValue = contents[currentContent].graph;
 		religeousSlider.fltValue = contents[currentContent].religeous;
 		confidenceSlider.fltValue = contents[currentContent].confidence;
 		
@@ -154,8 +149,7 @@ void ofApp::mousePressed(int x, int y, int button){
 	
 	if (backButton.mousePressed(x, y)) {
 		//contents[currentContent].saveValuesToFile();
-		contents[currentContent].social = socialGraph.vecValue;
-		contents[currentContent].econ = econGraph.vecValue;
+		contents[currentContent].graph = graph.vecValue;
 		contents[currentContent].religeous = religeousSlider.fltValue;
 		contents[currentContent].confidence = confidenceSlider.fltValue;
 		contents[currentContent].saveValuesToFile();
@@ -168,8 +162,7 @@ void ofApp::mousePressed(int x, int y, int button){
 		}
 
 		//contents[currentContent].parseMeta();
-		socialGraph.vecValue = contents[currentContent].social;
-		econGraph.vecValue = contents[currentContent].econ;
+		graph.vecValue = contents[currentContent].graph;
 		religeousSlider.fltValue = contents[currentContent].religeous;
 		confidenceSlider.fltValue = contents[currentContent].confidence;
 	}

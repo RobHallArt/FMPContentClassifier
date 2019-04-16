@@ -16,8 +16,5 @@ class graphInput {
 		void draw(glm::vec2 _position, glm::vec2 _size);
 		void mousePressed(int _x, int _y);
 
-		signed int getXmlCompatibleValue();
-		void setXmlCompatibleValue();
-
 		
 };

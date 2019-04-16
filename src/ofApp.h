@@ -30,8 +30,7 @@ class ofApp : public ofBaseApp{
 
 		string getExtFromPath(string _path);
 
-		graphInput socialGraph{ glm::vec2(ofGetWidth()*0.05, ofGetWidth()*0.05), glm::vec2(ofGetWidth()*0.4,ofGetWidth()*0.4), glm::vec2(0,0), "Social Graph" };
-		graphInput econGraph{ glm::vec2(ofGetWidth()*0.55, ofGetWidth()*0.05), glm::vec2(ofGetWidth()*0.4,ofGetWidth()*0.4), glm::vec2(0,0), "Econ Graph" };
+		graphInput graph{ glm::vec2(ofGetWidth()*0.05, ofGetWidth()*0.05), glm::vec2(ofGetWidth()*0.4,ofGetWidth()*0.4), glm::vec2(0,0), "Political Compass" };
 		graphInput religeousSlider{ glm::vec2(ofGetWidth()*0.05, ofGetWidth()*0.55), glm::vec2(ofGetWidth()*0.4,ofGetWidth()*0.1), 0, "Religeous Slider" };
 		graphInput confidenceSlider{ glm::vec2(ofGetWidth()*0.55, ofGetWidth()*0.55), glm::vec2(ofGetWidth()*0.4,ofGetWidth()*0.1), 0, "Confidence Slider" };
 		button backButton{ glm::vec2(ofGetWidth()*0.05, ofGetWidth()*0.65), glm::vec2(ofGetWidth()*0.1, ofGetWidth()*0.05), "Back" };
