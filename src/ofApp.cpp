@@ -1,73 +1,24 @@
 #include "ofApp.h"
 
-//--------------------------------------------------------------
-
-
-/*
-	Pseudocode for this bastard.
-	-GUI, separate class:
-
-		-position
-		-size x/y
-		-current Setting
-		-mode (2d vs 1d)
-		
-		-constructor ( with and without current Setting )
-		-draw
-		-mousePressed ( change setting )
-		
-	Button Class :
-		-position
-		-size x/y
-		-function to call when pressed
-		
-		-constructor
-		-draw
-		-mousePressed ( calls function to respond )
-
-	ofApp extra functions
-		load from text file into array
-		load from array into UI
-		save current UI values to array
-		save current array values to text
-
-	setup :
-		create necessary buttons / other elements
-		load everything into the array
-		load first content into the ui
-
-	draw : 
-		draw function of GUI
-
-
-	mousePressed :
-		call check mouse pressed on all buttons and ui elements
-
-*/
-
-
 void ofApp::setup(){
-	//some path, may be absolute or relative to bin/data
+
+	// Set up the directory to look in for content.
 	string contentPath = "\content";
 	ofDirectory contentDir(contentPath);
-
-
-
-	//only show png files
-	//dir.allowExt("png");
-	//populate the directory object
 	contentDir.listDir();
 
 
 
-	//go through and print out all the paths
+	// Loop through content and add it to content array.
 	for (int i = 0; i < contentDir.size(); i++) {
-		//std::cout << contentDir.getPath(i) << std::endl;
+		// Check if content is an image.
 		if (getExtFromPath(contentDir.getPath(i)) == "jpg" || getExtFromPath(contentDir.getPath(i)) == "png") {
+			// Push content into array.
 			contents.push_back(content(contentDir.getPath(i)));
 		}
 	}
 
+	// Set graphs to first content.
 	graph.vecValue = contents[currentContent].graph;
 	religeousSlider.fltValue = contents[currentContent].religeous;
 	confidenceSlider.fltValue = contents[currentContent].confidence;
@@ -81,15 +32,17 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-		
+		// Draw content
 		contents[currentContent].draw(0,0);
 
+		// Draw Graph
 		graph.draw(glm::vec2(ofGetWidth()*0.05, ofGetWidth()*0.05), glm::vec2(ofGetWidth()*0.4, ofGetWidth()*0.4));
 		
-
+		// Draw Sliders
 		religeousSlider.draw( glm::vec2(ofGetWidth()*0.05, ofGetWidth()*0.50), glm::vec2(ofGetWidth()*0.4,ofGetWidth()*0.1) );
 		confidenceSlider.draw( glm::vec2(ofGetWidth()*0.55, ofGetWidth()*0.50), glm::vec2(ofGetWidth()*0.4,ofGetWidth()*0.1) );
 
+		// Draw Buttons
 		backButton.draw(glm::vec2(ofGetWidth()*0.05, ofGetWidth()*0.65), glm::vec2(ofGetWidth()*0.1, ofGetWidth()*0.05));
 		nextButton.draw(glm::vec2(ofGetWidth()*0.2, ofGetWidth()*0.65), glm::vec2(ofGetWidth()*0.1, ofGetWidth()*0.05));
 
@@ -112,6 +65,8 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
+
+	// Make mouse on sliders works when dragging
 	graph.mousePressed(x, y);
 
 	religeousSlider.mousePressed(x, y);
@@ -120,18 +75,23 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+	// Check mouseClicked on sliders
 	graph.mousePressed(x, y);
 
 	religeousSlider.mousePressed(x, y);
 	confidenceSlider.mousePressed(x, y);
 
+	// On next Button Pressed
 	if (nextButton.mousePressed(x, y)) {
-		//contents[currentContent].saveValuesToFile();
+
+		// Set contents of graphs back to content
 		contents[currentContent].graph = graph.vecValue;
 		contents[currentContent].religeous = religeousSlider.fltValue;
 		contents[currentContent].confidence = confidenceSlider.fltValue;
+		// Save to file
 		contents[currentContent].saveValuesToFile();
 
+		// If at the end loop back around
 		if (currentContent >= contents.size()-1) {
 			currentContent = 0;
 		}
@@ -139,7 +99,9 @@ void ofApp::mousePressed(int x, int y, int button){
 			currentContent++;
 		}
 		
-		//contents[currentContent].parseMeta();
+
+
+		// Update graphs for new content
 		graph.vecValue = contents[currentContent].graph;
 		religeousSlider.fltValue = contents[currentContent].religeous;
 		confidenceSlider.fltValue = contents[currentContent].confidence;
@@ -148,20 +110,22 @@ void ofApp::mousePressed(int x, int y, int button){
 	}
 	
 	if (backButton.mousePressed(x, y)) {
-		//contents[currentContent].saveValuesToFile();
+		// Set contents of graphs back to content
 		contents[currentContent].graph = graph.vecValue;
 		contents[currentContent].religeous = religeousSlider.fltValue;
 		contents[currentContent].confidence = confidenceSlider.fltValue;
+		// Save to file
 		contents[currentContent].saveValuesToFile();
 
+		// If at the end loop back around
 		if (currentContent <= 0) {
-			currentContent = contents.size()-1;
+			currentContent = contents.size() - 1;
 		}
 		else {
 			currentContent--;
 		}
 
-		//contents[currentContent].parseMeta();
+		// Update graphs for new content
 		graph.vecValue = contents[currentContent].graph;
 		religeousSlider.fltValue = contents[currentContent].religeous;
 		confidenceSlider.fltValue = contents[currentContent].confidence;
@@ -170,6 +134,7 @@ void ofApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
+	// Reset Buttons when mouse is released
 	nextButton.mouseReleased(x, y);
 	backButton.mouseReleased(x, y);
 }
